@@ -1,10 +1,12 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
-import list from './list.json';
 import { savePriceToDb, initDb } from './db';
+import { loadList } from './loadList';
 
 (async () => {
   await initDb();
+  const list = await loadList();
+
   const browser = await chromium.launch({ headless: false });
   const context = await browser.newContext({
     userAgent:
