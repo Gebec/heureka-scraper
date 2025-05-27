@@ -17,8 +17,6 @@ import { savePriceToDb, initDb } from './db';
   const page = await browser.newPage();
 
   for (const lego of list) {
-    if (lego.id < 76421) continue;
-
     const cookies = JSON.parse(fs.readFileSync('cookies.json').toString());
     await context.addCookies(cookies);
 

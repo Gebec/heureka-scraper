@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node scraper.ts",
+    "scrape": "ts-node scraper.ts",
     "build": "tsc",
-    "start": "node dist/scraper.js",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
