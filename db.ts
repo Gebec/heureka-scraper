@@ -1,22 +1,23 @@
-import sqlite3 from 'sqlite3';
-const db = new sqlite3.Database('./prices.db');
+import { Pool } from 'pg';
+import dotenv from 'dotenv';
+dotenv.config();
 
-export const initDb = () => {
-  return new Promise((resolve) => {
-    db.run(
-      `
-      CREATE TABLE IF NOT EXISTS prices (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        legoId INTEGER NOT NULL,
-        shopName TEXT NOT NULL,
-        position INTEGER,
-        price INTEGER,
-        scraped_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `,
-      resolve
-    );
-  });
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+
+export const initDb = async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS prices (
+      id SERIAL PRIMARY KEY,
+      legoId INTEGER NOT NULL,
+      shopName TEXT NOT NULL,
+      position INTEGER,
+      price INTEGER,
+      scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 };
 
 interface PriceRecord {
@@ -26,9 +27,9 @@ interface PriceRecord {
   shopName: string | null;
 }
 
-export const savePriceToDb = ({ legoId, position, price, shopName }: PriceRecord) => {
+export const savePriceToDb = async ({ legoId, position, price, shopName }: PriceRecord) => {
   try {
-    db.run(`INSERT INTO prices (legoId, position, shopName, price) VALUES (?, ?, ?, ?)`, [
+    await pool.query(`INSERT INTO prices (legoId, position, shopName, price) VALUES ($1, $2, $3, $4)`, [
       legoId,
       position,
       shopName,
