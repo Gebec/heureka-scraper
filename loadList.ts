@@ -8,8 +8,13 @@ interface ListItem {
 export const loadList = async () => {
   const url = `https://drive.google.com/uc?export=download&id=${process.env.GOOGLE_DRIVE_FILE_ID}`;
 
-  const response = await axios.get<ListItem[]>(url);
-  console.log(`Úspěšně stažen seznam se ${response.data.length} položkami.`);
+  try {
+    const response = await axios.get<ListItem[]>(url);
+    console.log(`List downloaded successfully with ${response.data.length} items.`);
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.error('Error downloading the list: ', error);
+    throw error;
+  }
 };

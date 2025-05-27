@@ -27,13 +27,13 @@ import { loadList } from './loadList';
 
     const containers = await page.$$('[data-testid="Offer List Container"]');
     if (containers.length === 0) {
-      console.warn(`Žádné Offer List Container nenalezeny pro URL: ${lego.url}`);
+      console.warn(`No 'Offer List Container' found for url: ${lego.url}`);
       continue;
     }
 
     const targetContainer = containers.length > 1 ? containers.at(1) : containers.at(0);
     if (!targetContainer) {
-      console.warn(`Nebylo možné najít cílový kontejner pro URL: ${lego.url}`);
+      console.warn(`No valid container found for url: ${lego.url}`);
       continue;
     }
 

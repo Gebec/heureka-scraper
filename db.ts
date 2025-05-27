@@ -8,7 +8,8 @@ const pool = new Pool({
 });
 
 export const initDb = async () => {
-  await pool.query(`
+  try {
+    await pool.query(`
     CREATE TABLE IF NOT EXISTS prices (
       id SERIAL PRIMARY KEY,
       legoId INTEGER NOT NULL,
@@ -18,6 +19,10 @@ export const initDb = async () => {
       scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
+    console.log('Database initialized successfully.');
+  } catch (error) {
+    console.error('Error initializing database:', error);
+  }
 };
 
 interface PriceRecord {
@@ -36,6 +41,6 @@ export const savePriceToDb = async ({ legoId, position, price, shopName }: Price
       price,
     ]);
   } catch (error) {
-    console.error('Error saving price to database:', error);
+    console.error('Error saving to prices table:', error);
   }
 };
