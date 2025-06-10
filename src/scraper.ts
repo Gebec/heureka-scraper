@@ -1,13 +1,15 @@
 import { chromium } from 'playwright';
 import fs from 'fs';
-import { savePriceToDb, initDb } from './db';
-import { loadList } from './loadList';
+import { savePriceToDb, initDb } from './db.js';
+import { loadList } from './loadList.js';
 
 (async () => {
   await initDb();
   const list = await loadList();
 
-  const browser = await chromium.launch({ headless: false });
+  const browser = await chromium.launch({
+    headless: false,
+  });
   const context = await browser.newContext({
     userAgent:
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36',
