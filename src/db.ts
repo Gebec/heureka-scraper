@@ -44,3 +44,17 @@ export const savePriceToDb = async ({ legoId, position, price, shopName }: Price
     console.error('Error saving to prices table:', error);
   }
 };
+
+export const savePricesToDb = async (
+  id: number,
+  results: { price: number | null; shopName: string | null; position: number }[]
+) => {
+  for (const { position, price, shopName } of results) {
+    await savePriceToDb({
+      legoId: id,
+      position,
+      price,
+      shopName,
+    });
+  }
+};
