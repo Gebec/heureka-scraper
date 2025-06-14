@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node --loader ts-node/esm src/scraper.ts",
+    "start": "node --import ./loader-register.js src/scraper.ts",
     "build": "tsc",
     "lint": "eslint .",
     "format": "prettier --write .",
