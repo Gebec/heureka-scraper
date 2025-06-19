@@ -11,10 +11,10 @@ const initPage = async (browser: Browser): Promise<Page> => {
   const context = await browser.newContext({ userAgent });
 
   const cookies = await context.cookies();
-  fs.writeFileSync('cookies.json', JSON.stringify(cookies));
+  fs.writeFileSync('./src/cookies.json', JSON.stringify(cookies));
   const page = await browser.newPage();
 
-  const storedCookies = JSON.parse(fs.readFileSync('cookies.json', 'utf-8'));
+  const storedCookies = JSON.parse(fs.readFileSync('./src/cookies.json', 'utf-8'));
   await context.addCookies(storedCookies);
 
   return page;
